@@ -1,4 +1,4 @@
-# EMNIST - Convolutional Neural Network (CNN)
+# Convolutional Neural Network (CNN)
 
 A simple application using a CNN and the EMNIST dataset.
 
