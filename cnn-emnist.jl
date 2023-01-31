@@ -10,8 +10,7 @@ function load_train_dataset()
     x_treino = permutedims(x_treino, (2, 1, 3)) # troca os eixos weight e height de lugar
     x_treino = reshape(x_treino, (28, 28, 1, 124800)) # transforma a matriz criada em 124800 matrizes 28x28 com 1 dimensao
     y_treino = Flux.onehotbatch(y_treino, 0:36) # codifica os campos em uma matriz de 1's e 0's usando 37 possiveis classes de valores.
-    dados_treino = Flux.Data.DataLoader((x_treino, y_treino), batchsize=128) # Usado para carregar os dados em lotes
-    return dados_treino
+    return x_treino, y_treino
 end
 
 function load_test_dataset()
@@ -102,8 +101,10 @@ function train()
 
     num_épocas = 8
 
-    dados_treino = load_train_dataset()
+    x_treino, y_treino = load_train_dataset()
     x_teste, y_teste = load_test_dataset()
+
+	dados_treino = Flux.Data.DataLoader((x_treino, y_treino), batchsize=128)
 
     @info("Starting the training...")
     best_acc = 0.0
