@@ -8,9 +8,9 @@ using BSON
 function load_train_dataset()
     x_treino, y_treino = MLDatasets.EMNIST(:letters, Tx=Float32, split=:train)[:] # Pega o conjunto de treinamento do dataset
     x_treino = permutedims(x_treino, (2, 1, 3)) # troca os eixos weight e height de lugar
-    x_treino = reshape(x_treino, (28, 28, 1, 124800)) # transforma a matriz criado em 124800 matrizes 28x28 com 1 dimensao
+    x_treino = reshape(x_treino, (28, 28, 1, 124800)) # transforma a matriz criada em 124800 matrizes 28x28 com 1 dimensao
     y_treino = Flux.onehotbatch(y_treino, 0:36) # codifica os campos em uma matriz de 1's e 0's usando 37 possiveis classes de valores.
-    dados_treino = Flux.Data.DataLoader((x_treino, y_treino), batchsize=128) # Us'=ado para carregar os dados em lotes
+    dados_treino = Flux.Data.DataLoader((x_treino, y_treino), batchsize=128) # Usado para carregar os dados em lotes
     return dados_treino
 end
 
@@ -24,15 +24,33 @@ end
 
 function create_model()
     return Chain(
-        Conv((3, 3), 1 => 16, pad=(1, 1), relu), # recebera uma imagem 28x28 e fara uma convolucao com 8 filtros 5x5, e depois uma linearizacao usando relu. Com isso temos: (28 + 2*2 - 5)/2 + 1 = 14,5 => floor(14,5) = 14
+		# Recebera uma imagem 28x28 e fara uma convolucao com 16 filtros 3x3, 
+		# e depois uma linearizacao usando relu. 
+		# Com isso temos: (28 + 2*1 - 3)/1 + 1 = 28 => floor(28) = 28
+        Conv((3, 3), 1 => 16, pad=(1, 1), relu), 
+		# Recebera 26 imagems 28x28 e fara um pooling 2,2 para diminuirmos o tamanho
+		# da imagem e melhorar o processamento, o que resultará em uma imagem 14x14.
         MaxPool((2, 2)),
+		# Recebera 16 imagens 14x14 e fara uma convolucao com 32 filtros 3x3, 
+		# e depois uma linearizacao usando relu. 
+		# Com isso temos: (14 + 2*1 - 3)/1 + 1 = 14 => floor(14) = 14
         Conv((3, 3), 16 => 32, pad=(1, 1), relu),
+		# Recebera 32 imagems 14x14 e fara um pooling 2,2 para diminuirmos o tamanho
+		# da imagem e melhorar o processamento, o que resultará em uma imagem 7x7.
         MaxPool((2, 2)),
+		# Recebera 32 imagens 7x7 e fara uma convolucao com 32 filtros 3x3, 
+		# e depois uma linearizacao usando relu.
+		# Com isso temos: (7 + 2*1 - 3)/1 + 1 = 7 => floor(7) = 7
         Conv((3, 3), 32 => 32, pad=(1, 1), relu),
+		# Recebera 32 imagems 7x7 e fara um pooling 2,2 para diminuirmos o tamanho
+		# da imagem e melhorar o processamento, o que resultará em uma imagem 3x3.
         MaxPool((2, 2)),
-        Flux.flatten, # faz uma linearizacao
-        Dense(288, 37), # Cria uma rede totalmente conectada de entrada 32 e saida 10
-        Flux.softmax, # aplica sotfmax para dar a probabilidade de ser cada uma das 37 classes
+		# Faz uma linearizacao dos dados
+        Flux.flatten, 
+		# Cria uma rede totalmente conectada de entrada 288 e saida 37 que é o número de classes
+        Dense(288, 37), 
+		# Aplica sotfmax para dar a probabilidade de ser cada uma das 37 classes
+        Flux.softmax, 
     )
 end
 
