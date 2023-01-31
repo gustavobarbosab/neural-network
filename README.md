@@ -1,6 +1,6 @@
-# EMNIST - CONVOLUTIONAL NEURAL NETWORK
+# EMNIST - Convolutional Neural Network (CNN)
 
-A simple application using a Convolutional Neural Network (CNN) using the EMNIST dataset.
+A simple application using a CNN and the EMNIST dataset.
 
 ## Network architecture
 
