@@ -19,4 +19,4 @@ EMNIST paper: https://arxiv.org/pdf/1702.05373v1.pdf
 <img width="361" alt="Train sample" src="https://user-images.githubusercontent.com/11272342/215822984-5badea5c-238b-44e4-90aa-bdfe06654643.png">
 
 ## Test outputs
-<img width="457" alt="Test sample" src="https://user-images.githubusercontent.com/11272342/215823087-cdf2f5a6-e35c-45e0-9ec1-8ee649ea52a0.png">
+<img width="444" alt="image" src="https://user-images.githubusercontent.com/11272342/216316650-98c32d4a-9b79-4a4e-b6f7-9a5a438d0c4e.png">
