@@ -6,18 +6,26 @@ using Zygote
 using BSON
 
 function load_train_dataset()
-    x_treino, y_treino = MLDatasets.EMNIST(:letters, Tx=Float32, split=:train)[:] # Pega o conjunto de treinamento do dataset
-    x_treino = permutedims(x_treino, (2, 1, 3)) # troca os eixos weight e height de lugar
-    x_treino = reshape(x_treino, (28, 28, 1, 124800)) # transforma a matriz criada em 124800 matrizes 28x28 com 1 dimensao
-    y_treino = Flux.onehotbatch(y_treino, 0:36) # codifica os campos em uma matriz de 1's e 0's usando 37 possiveis classes de valores.
+	# Pega o conjunto de treinamento do dataset
+    x_treino, y_treino = MLDatasets.EMNIST(:letters, Tx=Float32, split=:train)[:] 
+	# troca os eixos weight e height de lugar
+    x_treino = permutedims(x_treino, (2, 1, 3)) 
+	# transforma a matriz criada em 124800 matrizes 28x28 com 1 dimensao
+    x_treino = reshape(x_treino, (28, 28, 1, 124800)) 
+	# codifica os campos em uma matriz de 1's e 0's usando 37 possiveis classes de valores.
+    y_treino = Flux.onehotbatch(y_treino, 0:36) 
     return x_treino, y_treino
 end
 
 function load_test_dataset()
-    x_teste, y_teste = MLDatasets.EMNIST(:letters, Tx=Float32, split=:test)[:] # Pega o conjunto de teste do dataset
-    x_teste = permutedims(x_teste, (2, 1, 3)) # Permuta os eixos weight e height de lugar
-    x_teste = reshape(x_teste, (28, 28, 1, 20800)) # Transforma os arrays criado em 20800 matrizes de 28x28
-    y_teste = Flux.onehotbatch(y_teste, 0:36) # codifica os campos em uma matriz de 1's e 0's usando 37 possiveis classes de valores.
+	# Pega o conjunto de teste do dataset
+    x_teste, y_teste = MLDatasets.EMNIST(:letters, Tx=Float32, split=:test)[:] 
+	# Permuta os eixos weight e height de lugar
+    x_teste = permutedims(x_teste, (2, 1, 3)) 
+	# Transforma os arrays criado em 20800 matrizes de 28x28
+    x_teste = reshape(x_teste, (28, 28, 1, 20800)) 
+	# codifica os campos em uma matriz de 1's e 0's usando 37 possiveis classes de valores.
+    y_teste = Flux.onehotbatch(y_teste, 0:36) 
     return x_teste, y_teste
 end
 
@@ -152,7 +160,6 @@ function test()
     model_test = newModel(x_teste)
     @info "Getting the accuracy"
     acu = acuracia(model_test, y_teste)
-
-    @show acu
+	@info(@sprintf("Acurácia nos testes: %.4f", acu))
 end
 
