@@ -5,8 +5,7 @@ A simple application using a CNN and the EMNIST dataset.
 ## Network architecture
 
 I created an architecture using CNN pattern with 3 convolution layers.
-
-![Architecture](https://user-images.githubusercontent.com/11272342/215820879-e99aa3b9-d119-468c-b4a2-7b192a343037.jpg)
+![Architecture](https://user-images.githubusercontent.com/11272342/216422375-0c1c2839-fbdd-47ff-8095-cba8ff38f73c.png)
 
 ## EMNIST dataset
 
